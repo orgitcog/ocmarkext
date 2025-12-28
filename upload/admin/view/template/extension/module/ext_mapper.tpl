@@ -66,6 +66,7 @@
                   <div class="panel panel-info">
                     <div class="panel-heading">
                       <h3 class="panel-title">
+                        <?php /* Icon classes are pre-defined in installation SQL, but escaped for defense in depth */ ?>
                         <i class="fa <?php echo htmlspecialchars($category['icon'], ENT_QUOTES, 'UTF-8'); ?>"></i> 
                         <?php echo htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8'); ?>
                       </h3>

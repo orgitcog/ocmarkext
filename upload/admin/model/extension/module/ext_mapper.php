@@ -161,11 +161,11 @@ class ModelExtensionModuleExtMapper extends Model {
         $sql .= " ORDER BY e.downloads DESC, e.rating DESC";
         
         if (isset($data['start']) || isset($data['limit'])) {
-            if ($data['start'] < 0) {
+            if (!isset($data['start']) || $data['start'] < 0) {
                 $data['start'] = 0;
             }
             
-            if ($data['limit'] < 1) {
+            if (!isset($data['limit']) || $data['limit'] <= 0) {
                 $data['limit'] = 20;
             }
             
@@ -211,14 +211,19 @@ class ModelExtensionModuleExtMapper extends Model {
         
         $extension_id = $this->db->getLastId();
         
-        // Add functionalities if provided
+        // Add functionalities if provided (batch insert for better performance)
         if (!empty($data['functionalities']) && is_array($data['functionalities'])) {
+            $values = array();
             foreach ($data['functionalities'] as $functionality_id) {
+                $values[] = "('" . (int)$extension_id . "', '" . (int)$functionality_id . "')";
+            }
+            
+            if (!empty($values)) {
                 $this->db->query("
                     INSERT INTO `" . DB_PREFIX . "ext_mapper_extension_functionality` 
-                    SET extension_id = '" . (int)$extension_id . "',
-                        functionality_id = '" . (int)$functionality_id . "'
-                ");
+                    (extension_id, functionality_id) 
+                    VALUES " . implode(', ', $values)
+                );
             }
         }
         
