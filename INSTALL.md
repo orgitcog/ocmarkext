@@ -88,15 +88,16 @@ Before installing the Extension Mapper & Recommender module, ensure you have:
    cp -R temp_ext_mapper/upload/* .
    ```
 
-3. **Import Database**
+3. **Import Database** (Optional - module auto-installs on first use)
    ```bash
+   # Note: Replace oc_ with your database prefix if different
    mysql -u username -p database_name < temp_ext_mapper/install/install.sql
    ```
    
    Replace:
    - `username` with your MySQL username
    - `database_name` with your OpenCart database name
-   - Update `oc_` prefix if your installation uses different prefix
+   - **Important:** If your OpenCart installation uses a different database prefix than `oc_`, you must edit the SQL file first and replace all instances of `oc_` with your prefix, or skip manual import and let the module auto-install.
 
 4. **Clean Up**
    ```bash

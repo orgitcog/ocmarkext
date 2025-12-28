@@ -52,8 +52,10 @@ An intelligent OpenCart extension that helps you discover, organize, and select 
    - Navigate to `Extensions` → `Extensions`
    - Select `Modules` from the extension type dropdown
    - Find "Extension Mapper & Recommender" in the list
-   - Click the green `Install` button
+   - Click the green `Install` button (this will automatically create database tables)
    - After installation, click the `Edit` button to configure
+
+**Note:** The module will automatically create all database tables using your OpenCart database prefix. If you need to manually import SQL files, replace `oc_` with your actual database prefix in the SQL files.
 
 ### Method 2: Database Installation (Optional)
 

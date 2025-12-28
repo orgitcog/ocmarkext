@@ -66,12 +66,12 @@
                   <div class="panel panel-info">
                     <div class="panel-heading">
                       <h3 class="panel-title">
-                        <i class="fa <?php echo $category['icon']; ?>"></i> 
-                        <?php echo $category['name']; ?>
+                        <i class="fa <?php echo htmlspecialchars($category['icon'], ENT_QUOTES, 'UTF-8'); ?>"></i> 
+                        <?php echo htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8'); ?>
                       </h3>
                     </div>
                     <div class="panel-body">
-                      <p><?php echo $category['description']; ?></p>
+                      <p><?php echo htmlspecialchars($category['description'], ENT_QUOTES, 'UTF-8'); ?></p>
                     </div>
                   </div>
                 </div>
@@ -94,11 +94,11 @@
                       <?php foreach ($extensions as $extension) { ?>
                       <tr>
                         <td class="text-left">
-                          <strong><?php echo $extension['name']; ?></strong>
+                          <strong><?php echo htmlspecialchars($extension['name'], ENT_QUOTES, 'UTF-8'); ?></strong>
                           <br/>
-                          <small><?php echo $extension['description']; ?></small>
+                          <small><?php echo htmlspecialchars($extension['description'], ENT_QUOTES, 'UTF-8'); ?></small>
                         </td>
-                        <td class="text-left"><?php echo $extension['category_name']; ?></td>
+                        <td class="text-left"><?php echo htmlspecialchars($extension['category_name'], ENT_QUOTES, 'UTF-8'); ?></td>
                         <td class="text-center">
                           <?php if ($extension['rating']) { ?>
                             <?php echo number_format($extension['rating'], 1); ?> <i class="fa fa-star text-warning"></i>
@@ -185,12 +185,12 @@
               <div class="panel panel-success">
                 <div class="panel-heading">
                   <h3 class="panel-title">
-                    <i class="fa <?php echo $use_case['icon']; ?>"></i> 
-                    <?php echo $use_case['name']; ?>
+                    <i class="fa <?php echo htmlspecialchars($use_case['icon'], ENT_QUOTES, 'UTF-8'); ?>"></i> 
+                    <?php echo htmlspecialchars($use_case['name'], ENT_QUOTES, 'UTF-8'); ?>
                   </h3>
                 </div>
                 <div class="panel-body">
-                  <p><?php echo $use_case['description']; ?></p>
+                  <p><?php echo htmlspecialchars($use_case['description'], ENT_QUOTES, 'UTF-8'); ?></p>
                   <div class="alert alert-info">
                     <strong>Recommended Extensions for this use case:</strong>
                     <ul>

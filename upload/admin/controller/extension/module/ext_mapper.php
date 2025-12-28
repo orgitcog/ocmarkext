@@ -98,12 +98,12 @@ class ControllerExtensionModuleExtMapper extends Controller {
         
         $json = array();
         
-        if (isset($this->request->get['use_case_id'])) {
-            $use_case_id = $this->request->get['use_case_id'];
+        if (isset($this->request->get['use_case_id']) && (int)$this->request->get['use_case_id'] > 0) {
+            $use_case_id = (int)$this->request->get['use_case_id'];
             $recommendations = $this->model_extension_module_ext_mapper->getRecommendations($use_case_id);
             $json['recommendations'] = $recommendations;
         } else {
-            $json['error'] = 'No use case specified';
+            $json['error'] = 'Invalid or missing use case ID';
         }
         
         $this->response->addHeader('Content-Type: application/json');
@@ -117,14 +117,33 @@ class ControllerExtensionModuleExtMapper extends Controller {
         $json = array();
         
         if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-            $data = $this->request->post;
-            $extension_id = $this->model_extension_module_ext_mapper->addExtension($data);
-            
-            if ($extension_id) {
-                $json['success'] = 'Extension added successfully';
-                $json['extension_id'] = $extension_id;
+            // Validate required fields
+            if (empty($this->request->post['name'])) {
+                $json['error'] = 'Extension name is required';
+            } elseif (empty($this->request->post['category_id']) || (int)$this->request->post['category_id'] <= 0) {
+                $json['error'] = 'Valid category is required';
             } else {
-                $json['error'] = 'Failed to add extension';
+                $data = array(
+                    'name' => $this->request->post['name'],
+                    'description' => isset($this->request->post['description']) ? $this->request->post['description'] : '',
+                    'category_id' => (int)$this->request->post['category_id'],
+                    'version' => isset($this->request->post['version']) ? $this->request->post['version'] : '',
+                    'author' => isset($this->request->post['author']) ? $this->request->post['author'] : '',
+                    'marketplace_url' => isset($this->request->post['marketplace_url']) ? $this->request->post['marketplace_url'] : '',
+                    'price' => isset($this->request->post['price']) ? (float)$this->request->post['price'] : 0.00,
+                    'rating' => isset($this->request->post['rating']) ? (float)$this->request->post['rating'] : 0.00,
+                    'downloads' => isset($this->request->post['downloads']) ? (int)$this->request->post['downloads'] : 0,
+                    'functionalities' => isset($this->request->post['functionalities']) && is_array($this->request->post['functionalities']) ? $this->request->post['functionalities'] : array()
+                );
+                
+                $extension_id = $this->model_extension_module_ext_mapper->addExtension($data);
+                
+                if ($extension_id) {
+                    $json['success'] = 'Extension added successfully';
+                    $json['extension_id'] = $extension_id;
+                } else {
+                    $json['error'] = 'Failed to add extension';
+                }
             }
         }
         

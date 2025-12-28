@@ -189,17 +189,22 @@ class ModelExtensionModuleExtMapper extends Model {
     }
     
     public function addExtension($data) {
+        // Validate required fields
+        if (empty($data['name']) || empty($data['category_id'])) {
+            return false;
+        }
+        
         $this->db->query("
             INSERT INTO `" . DB_PREFIX . "ext_mapper_extensions` 
             SET name = '" . $this->db->escape($data['name']) . "',
-                description = '" . $this->db->escape($data['description']) . "',
+                description = '" . $this->db->escape(isset($data['description']) ? $data['description'] : '') . "',
                 category_id = '" . (int)$data['category_id'] . "',
-                version = '" . $this->db->escape($data['version']) . "',
-                author = '" . $this->db->escape($data['author']) . "',
-                marketplace_url = '" . $this->db->escape($data['marketplace_url']) . "',
-                price = '" . (float)$data['price'] . "',
-                rating = '" . (float)$data['rating'] . "',
-                downloads = '" . (int)$data['downloads'] . "',
+                version = '" . $this->db->escape(isset($data['version']) ? $data['version'] : '') . "',
+                author = '" . $this->db->escape(isset($data['author']) ? $data['author'] : '') . "',
+                marketplace_url = '" . $this->db->escape(isset($data['marketplace_url']) ? $data['marketplace_url'] : '') . "',
+                price = '" . (float)(isset($data['price']) ? $data['price'] : 0) . "',
+                rating = '" . (float)(isset($data['rating']) ? $data['rating'] : 0) . "',
+                downloads = '" . (int)(isset($data['downloads']) ? $data['downloads'] : 0) . "',
                 date_added = NOW(),
                 status = 1
         ");
@@ -207,7 +212,7 @@ class ModelExtensionModuleExtMapper extends Model {
         $extension_id = $this->db->getLastId();
         
         // Add functionalities if provided
-        if (!empty($data['functionalities'])) {
+        if (!empty($data['functionalities']) && is_array($data['functionalities'])) {
             foreach ($data['functionalities'] as $functionality_id) {
                 $this->db->query("
                     INSERT INTO `" . DB_PREFIX . "ext_mapper_extension_functionality` 
