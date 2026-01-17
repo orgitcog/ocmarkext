@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension>
+    <id>ext_mapper</id>
+    <name>Extension Mapper &amp; Recommender</name>
+    <version>1.0.0</version>
+    <author>orgitcog</author>
+    <link>https://github.com/orgitcog/ocmarkext</link>
+    <type>module</type>
+    <license>MIT</license>
+    <description>
+        <en-gb>An intelligent extension management system that helps you discover, organize, and select the right extensions for your OpenCart store. Features include extension listing by functionality, capability mapping, and smart recommendations for specific use cases.</en-gb>
+    </description>
+    <files>
+        <file path="admin/controller/extension/module/ext_mapper.php" />
+        <file path="admin/model/extension/module/ext_mapper.php" />
+        <file path="admin/language/en-gb/extension/module/ext_mapper.php" />
+        <file path="admin/view/template/extension/module/ext_mapper.tpl" />
+    </files>
+    <requires>
+        <opencart>3.0.0.0</opencart>
+        <php>7.2</php>
+        <mysql>5.6</mysql>
+    </requires>
+    <compatibility>
+        <opencart>3.x</opencart>
+        <opencart>4.x</opencart>
+    </compatibility>
+    <install>
+        <sql>install/install.sql</sql>
+    </install>
+    <uninstall>
+        <sql>install/uninstall.sql</sql>
+    </uninstall>
+</extension>
